@@ -16,9 +16,8 @@
 (function() {
     'use strict';
 
-
     function bypassLink(url) {
-        const apiUrl = https://api.bypass.vip/bypass?url=${url};
+        const apiUrl = `https://api.bypass.vip/bypass?url=${url}`;
 
         GM_xmlhttpRequest({
             method: 'GET',
@@ -27,7 +26,6 @@
                 try {
 
                     const data = JSON.parse(response.responseText);
-
 
                     if (data && data.result) {
 
@@ -64,7 +62,6 @@
             }
         });
     }
-
 
     const targetUrl = window.location.href;
     if (targetUrl.includes('linkvertise.com') || targetUrl.includes('work.ink') || targetUrl.includes('loot-link.com') || targetUrl.includes('https://lootdest.org/') || targetUrl.includes('socialwolvez.com')) {
