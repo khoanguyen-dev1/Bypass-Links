@@ -2,8 +2,8 @@
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
 // @version      0.2
-// @description  Automatically click buttons for specific URLs and bypass certain links including Fluxus bypass
-// @author       You
+// @description  Bypass so cool
+// @author       UwU
 // @match        *://getkey.relzscript.xyz/check1.php*
 // @match        *://getkey.relzscript.xyz/check2.php*
 // @match        *://getkey.relzscript.xyz/check3.php*
@@ -15,6 +15,7 @@
 // @grant        GM_notification
 // @grant        GM_xmlhttpRequest
 // @run-at       document-start
+// @icon         https://cdn.discordapp.com/avatars/1248562467240542208/a15472d7a7c67389033a031fc62e98a2.png?size=4096
 // ==/UserScript==
 
 (function() {
@@ -155,7 +156,7 @@
         }
     }
 
-    // Run the functions when the page is fully loaded
+
     window.addEventListener('load', function() {
         const currentUrl = window.location.href;
 
@@ -165,7 +166,7 @@
         
          if (currentUrl.includes('linkvertise.com') || currentUrl.includes('work.ink') || currentUrl.includes('loot-link.com') || currentUrl.includes('https://lootdest.org/') || currentUrl.includes('socialwolvez.com')) {
             console.log('Attempting to bypass the link...');
-            bypassLink(currentUrl);  // Bypass the link
+            bypassLink(currentUrl);
         }
         
         if (currentUrl.includes('getzorara.online')) {
