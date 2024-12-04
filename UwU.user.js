@@ -1,14 +1,20 @@
 // ==UserScript==
-// @name         Bypass Fluxus (pc)
+// @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
 // @version      0.2
-// @description  Bypass Fluxus (pc) by clicking "Generate Key" button first, then bypass link
-// @author       UwU
+// @description  Automatically click buttons for specific URLs and bypass certain links including Fluxus bypass
+// @author       You
+// @match        *://getkey.relzscript.xyz/check1.php*
+// @match        *://getkey.relzscript.xyz/check2.php*
+// @match        *://getkey.relzscript.xyz/check3.php*
+// @match        *://linkvertise.com/*
+// @match        https://loot-link.com/*
+// @match        https://lootdest.org/*
+// @match        https://socialwolvez.com/*
 // @match        https://getzorara.online/*
-// @match        https://linkvertise.com/*
 // @grant        GM_notification
 // @grant        GM_xmlhttpRequest
-// @icon         https://cdn.discordapp.com/avatars/1248562467240542208/a15472d7a7c67389033a031fc62e98a2.png?size=4096
+// @run-at       document-start
 // ==/UserScript==
 
 (function() {
@@ -16,6 +22,34 @@
 
     const MAX_RETRIES = 3;
     const RETRY_DELAY = 5000;
+
+    function clickContinueButton() {
+        const currentUrl = window.location.href;
+
+        if (currentUrl.startsWith('https://getkey.relzscript.xyz/check1.php') ||
+            currentUrl.startsWith('https://getkey.relzscript.xyz/check2.php')) {
+
+            const continueButton = document.querySelector("body > div > div > div.flex.justify-center.items-center.w-full.gap-2.flex-col > a.w-full.text-sm.rounded-md.bg-neutral-50.hover\\:bg-neutral-300.text-neutral-950.p-2.font-medium.text-center.flex.items-center.justify-center.gap-1");
+
+            if (continueButton) {
+                console.log(`Clicking the continue button for ${currentUrl}...`);
+                continueButton.click();  
+            } else {
+                console.log(`Continue button not found for ${currentUrl}.`);
+            }
+        }
+        else if (currentUrl.startsWith('https://getkey.relzscript.xyz/check3.php')) {
+
+            const continueButton = document.querySelector("body > div > div > div.flex.justify-center.items-center.w-full.gap-2.flex-col > a.w-full.rounded-md.bg-neutral-50.hover\\:bg-neutral-300.text-neutral-950.p-2.font-medium.text-center.flex.items-center.justify-center.gap-1");
+
+            if (continueButton) {
+                console.log(`Clicking the continue button for ${currentUrl}...`);
+                continueButton.click(); 
+            } else {
+                console.log(`Continue button not found for ${currentUrl}.`);
+            }
+        }
+    }
 
 
     function bypassLink(url, retries = 0) {
@@ -35,7 +69,7 @@
                     const data = JSON.parse(response.responseText);
 
                     if (data && data.result) {
-                        window.location.href = data.result;
+                        window.location.href = data.result; 
                         GM_notification({
                             title: 'Bypass Successful',
                             text: 'Successfully bypassed the link!',
@@ -121,14 +155,21 @@
         }
     }
 
+    // Run the functions when the page is fully loaded
     window.addEventListener('load', function() {
-        const targetUrl = window.location.href;
-        if (targetUrl.includes('getzorara.online')) {
-            handleGenerateButton();
-        }
+        const currentUrl = window.location.href;
 
-        if (targetUrl.includes('linkvertise.com')) {
-            bypassLink(targetUrl);
+        if (currentUrl.includes('getkey.relzscript.xyz')) {
+            clickContinueButton(); 
+        }
+        
+         if (currentUrl.includes('linkvertise.com') || currentUrl.includes('work.ink') || currentUrl.includes('loot-link.com') || currentUrl.includes('https://lootdest.org/') || currentUrl.includes('socialwolvez.com')) {
+            console.log('Attempting to bypass the link...');
+            bypassLink(currentUrl);  // Bypass the link
+        }
+        
+        if (currentUrl.includes('getzorara.online')) {
+            handleGenerateButton();  
         }
     }, false);
 })();
