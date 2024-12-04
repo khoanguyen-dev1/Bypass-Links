@@ -25,7 +25,7 @@
             timeout: 5000
         });
 
-        const apiUrl = `https://api.bypass.vip/bypass?url=${url}`;
+        const apiUrl = `https://ethos.kys.gay/api/free/bypass?url=${url}`;
 
         GM_xmlhttpRequest({
             method: 'GET',
