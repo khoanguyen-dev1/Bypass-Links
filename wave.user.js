@@ -6,12 +6,15 @@
 // @author       UwU
 // @match        https://key.getwave.gg/*
 // @match        https://loot-link.com/*
+// @match        https://lootdest.com/*
+// @match        https://linkvertise.com/*
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
-    // hiện button thông báo
+
+    // tạo button log thông báo
     const logContainer = document.createElement('div');
     logContainer.style.position = 'fixed';
     logContainer.style.bottom = '10px';
@@ -28,31 +31,51 @@
     logContainer.style.zIndex = 1000;
     document.body.appendChild(logContainer);
 
-
     function logToContainer(message) {
         const logMessage = document.createElement('div');
         logMessage.textContent = message;
         logContainer.appendChild(logMessage);
     }
+
+
     if (window.location.href === "https://key.getwave.gg/") {
         window.location.href = "https://key.getwave.gg/freemium-tasks";
-        logToContainer('Redirecting to freemium-tasks...');
+        logToContainer('Đang chuyển hướng đến https://key.getwave.gg/freemium-tasks');
     }
-    // hiện để bypass
-    else if (window.location.href.includes("https://loot-link.com/")) {
-        const currentUrl = window.location.href;
-        const bypassUrl = `https://bypass.vip/userscript?url=${encodeURIComponent(currentUrl)}&time=10&key=`;
-        window.location.href = bypassUrl;
-        logToContainer(`Redirecting to: ${bypassUrl}`);
+    else if (window.location.href.includes("https://loot-link.com/") || window.location.href.includes("https://lootdest.com/") || window.location.href.includes("https://linkvertise.com/")) {
+        logToContainer('Vui long chờ 5 giây để bypass');
+
+        setTimeout(function() {
+            const currentUrl = window.location.href;
+
+            // ktra link có mã hóa hay hông
+            const redirectParamIndex = currentUrl.indexOf("&redirect=");
+            if (redirectParamIndex !== -1) {
+                // nếu có sẽ trả url về nguyên trạng
+                const encodedRedirectUrl = currentUrl.substring(redirectParamIndex + 10); 
+                const decodedUrl = decodeURIComponent(encodedRedirectUrl); 
+
+                // Log and redirect to the decoded URL
+                logToContainer(`Redirecting to: ${decodedUrl}`);
+                window.location.href = decodedUrl;
+            } else {
+                // sau link k có mã hóa sẽ bypass
+                const bypassUrl = `https://bypass.vip/userscript?url=${encodeURIComponent(currentUrl)}&time=10&key=`;
+                logToContainer(`Redirecting to bypass URL: ${bypassUrl}`);
+                window.location.href = bypassUrl;
+            }
+        }, 5000);
     }
     else {
         function clickStep1() {
             const step1Element = document.querySelector('h1.cursor-pointer.text-3xl.max-w-3xl.mx-auto.text-center.font-semibold');
             if (step1Element) {
                 step1Element.click();
-                logToContainer('Step 1 clicked!');
+                logToContainer('Bypass Step');
+                clearInterval(step1ClickInterval);
             }
         }
-        setInterval(clickStep1, 2000);
+        const step1ClickInterval = setInterval(clickStep1, 2000);
     }
 })();
+
