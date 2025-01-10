@@ -12,8 +12,7 @@
 // @match        https://lootdest.org/*
 // @match        https://socialwolvez.com/*
 // @match        https://getzorara.online/*
-// @grant        GM_notification
-// @grant        GM_xmlhttpRequest
+// @match        https://key.getwave.gg/*
 // @run-at       document-start
 // @icon         https://cdn.discordapp.com/avatars/1248562467240542208/a15472d7a7c67389033a031fc62e98a2.png?size=4096
 // ==/UserScript==
@@ -21,8 +20,92 @@
 (function() {
     'use strict';
 
-    const MAX_RETRIES = 3;
-    const RETRY_DELAY = 5000;
+
+    const logContainer = document.createElement('div');
+    logContainer.style.position = 'fixed';
+    logContainer.style.top = '10px';
+    logContainer.style.right = '10px';
+    logContainer.style.maxWidth = '300px';
+    logContainer.style.maxHeight = '300px';
+    logContainer.style.overflowY = 'auto';
+    logContainer.style.backgroundColor = '#333';
+    logContainer.style.color = 'white';
+    logContainer.style.padding = '10px';
+    logContainer.style.fontFamily = 'monospace';
+    logContainer.style.fontSize = '12px';
+    logContainer.style.borderRadius = '5px';
+    logContainer.style.zIndex = 1000;
+    document.body.appendChild(logContainer);
+
+
+    function logToContainer(message) {
+        const logMessage = document.createElement('div');
+        logMessage.textContent = message;
+        logContainer.appendChild(logMessage);
+    }
+
+    function handleSpecialUrls() {
+        if (window.location.href.includes("https://loot-link.com/") || 
+            window.location.href.includes("https://lootdest.org/") || 
+            window.location.href.includes("https://linkvertise.com/")) {
+            
+            logToContainer('Vui lòng chờ 5 giây để bypass');
+
+            setTimeout(function() {
+                const currentUrl = window.location.href;
+
+
+                const redirectParamIndex = currentUrl.indexOf("&redirect=");
+                if (redirectParamIndex !== -1) {
+                    const encodedRedirectUrl = currentUrl.substring(redirectParamIndex + 10);
+                    const decodedUrl = decodeURIComponent(encodedRedirectUrl);
+
+                    logToContainer(`Success: ${decodedUrl}`);
+                    window.location.href = decodedUrl;  
+                } else {
+                    const bypassUrl = `https://bypass.vip/userscript?url=${encodeURIComponent(currentUrl)}&time=5&key=`;
+
+                    logToContainer(`ik tới link bypass: ${bypassUrl}`);
+                    window.location.href = bypassUrl;  
+                }
+            }, 1000); 
+        }
+    }
+
+
+    if (window.location.href === "https://key.getwave.gg/") {
+        window.location.href = "https://key.getwave.gg/freemium-tasks";
+        logToContainer('Đang chuyển hướng đến https://key.getwave.gg/freemium-tasks');
+    }
+    else {
+        function clickStep1() {
+            const step1Element = document.querySelector('h1.cursor-pointer.text-3xl.max-w-3xl.mx-auto.text-center.font-semibold');
+            if (step1Element) {
+                step1Element.click();
+                logToContainer('Bypass Step');
+                clearInterval(step1ClickInterval);
+            }
+        }
+
+        const step1ClickInterval = setInterval(clickStep1, 2000);
+    }
+
+    window.addEventListener('load', function() {
+        const currentUrl = window.location.href;
+
+        if (currentUrl.includes('getkey.relzscript.xyz')) {
+            clickContinueButton(); 
+        }
+
+        if (currentUrl.includes('linkvertise.com') || currentUrl.includes('loot-link.com') || currentUrl.includes('lootdest.org')) {
+            logToContainer('Attempting to handle special URL...');
+            handleSpecialUrls(); 
+        }
+
+        if (currentUrl.includes('getzorara.online')) {
+            handleGenerateButton();  
+        }
+    }, false);
 
     function clickContinueButton() {
         const currentUrl = window.location.href;
@@ -33,10 +116,10 @@
             const continueButton = document.querySelector("body > div > div > div.flex.justify-center.items-center.w-full.gap-2.flex-col > a.w-full.text-sm.rounded-md.bg-neutral-50.hover\\:bg-neutral-300.text-neutral-950.p-2.font-medium.text-center.flex.items-center.justify-center.gap-1");
 
             if (continueButton) {
-                console.log(`Clicking the continue button for ${currentUrl}...`);
+                logToContainer(`Clicking the continue button for ${currentUrl}...`);
                 continueButton.click();  
             } else {
-                console.log(`Continue button not found for ${currentUrl}.`);
+                logToContainer(`Continue button not found for ${currentUrl}.`);
             }
         }
         else if (currentUrl.startsWith('https://getkey.relzscript.xyz/check3.php')) {
@@ -44,82 +127,12 @@
             const continueButton = document.querySelector("body > div > div > div.flex.justify-center.items-center.w-full.gap-2.flex-col > a.w-full.rounded-md.bg-neutral-50.hover\\:bg-neutral-300.text-neutral-950.p-2.font-medium.text-center.flex.items-center.justify-center.gap-1");
 
             if (continueButton) {
-                console.log(`Clicking the continue button for ${currentUrl}...`);
+                logToContainer(`Clicking the continue button for ${currentUrl}...`);
                 continueButton.click(); 
             } else {
-                console.log(`Continue button not found for ${currentUrl}.`);
+                logToContainer(`Continue button not found for ${currentUrl}.`);
             }
         }
-    }
-
-
-    function bypassLink(url, retries = 0) {
-        GM_notification({
-            title: 'Bypassing Link...',
-            text: 'Please wait while we bypass the URL.',
-            timeout: 5000
-        });
-
-        const apiUrl = `https://iwoozie.baby/api/free/bypass?url=${url}`;
-
-        GM_xmlhttpRequest({
-            method: 'GET',
-            url: apiUrl,
-            onload: function(response) {
-                try {
-                    const data = JSON.parse(response.responseText);
-
-                    if (data && data.result) {
-                        window.location.href = data.result; 
-                        GM_notification({
-                            title: 'Bypass Successful',
-                            text: 'Successfully bypassed the link!',
-                            timeout: 5000
-                        });
-                    } else {
-                        console.error('Error: Bypass failed, no result in API response.');
-                        GM_notification({
-                            title: 'Bypass Failed',
-                            text: 'Unable to bypass the URL.',
-                            timeout: 5000
-                        });
-                        if (retries < MAX_RETRIES) {
-                            console.log(`Retrying... Attempt ${retries + 1} of ${MAX_RETRIES}`);
-                            setTimeout(() => bypassLink(url, retries + 1), RETRY_DELAY);
-                        } else {
-                            console.log('Max retries reached.');
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error parsing API response:', error);
-                    GM_notification({
-                        title: 'Error',
-                        text: 'There was an error processing the bypass.',
-                        timeout: 5000
-                    });
-                    if (retries < MAX_RETRIES) {
-                        console.log(`Retrying... Attempt ${retries + 1} of ${MAX_RETRIES}`);
-                        setTimeout(() => bypassLink(url, retries + 1), RETRY_DELAY);
-                    } else {
-                        console.log('Max retries reached.');
-                    }
-                }
-            },
-            onerror: function() {
-                console.error('Error with bypass API request.');
-                GM_notification({
-                    title: 'Error',
-                    text: 'Failed to connect to bypass API.',
-                    timeout: 5000
-                });
-                if (retries < MAX_RETRIES) {
-                    console.log(`Retrying... Attempt ${retries + 1} of ${MAX_RETRIES}`);
-                    setTimeout(() => bypassLink(url, retries + 1), RETRY_DELAY);
-                } else {
-                    console.log('Max retries reached.');
-                }
-            }
-        });
     }
 
     function handleGenerateButton() {
@@ -127,50 +140,22 @@
 
         if (generateButton) {
             generateButton.click();
-            console.log('Button clicked!');
-            GM_notification({
-                title: 'Button Clicked',
-                text: 'The Generate Key button was clicked successfully!',
-                timeout: 5000
-            });
+            logToContainer('Button clicked!');
 
             setTimeout(() => {
                 if (document.querySelector('.key-display')) {
                     const finalUrl = document.querySelector('.key-display').textContent.trim();
                     if (finalUrl) {
-                        bypassLink(finalUrl);
+                        handleSpecialUrls(); 
                     } else {
-                        console.log('No bypass URL found after clicking the button.');
-                        GM_notification({
-                            title: 'Error',
-                            text: 'No bypass URL found after clicking the button.',
-                            timeout: 5000
-                        });
+                        logToContainer('No bypass URL found after clicking the button.');
                     }
                 } else {
-                    console.log('Key display not found or not yet available.');
+                    logToContainer('Key display not found or not yet available.');
                 }
             }, 5000);
         } else {
-            console.log('Generate Key button not found.');
+            logToContainer('Generate Key button not found.');
         }
     }
-
-
-    window.addEventListener('load', function() {
-        const currentUrl = window.location.href;
-
-        if (currentUrl.includes('getkey.relzscript.xyz')) {
-            clickContinueButton(); 
-        }
-        
-         if (currentUrl.includes('linkvertise.com') || currentUrl.includes('work.ink') || currentUrl.includes('loot-link.com') || currentUrl.includes('https://lootdest.org/') || currentUrl.includes('socialwolvez.com')) {
-            console.log('Attempting to bypass the link...');
-            bypassLink(currentUrl);
-        }
-        
-        if (currentUrl.includes('getzorara.online')) {
-            handleGenerateButton();  
-        }
-    }, false);
 })();
