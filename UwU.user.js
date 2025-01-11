@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Bypass so cool
 // @author       UwU
 // @match        *://linkvertise.com/*
@@ -11,6 +11,8 @@
 // @match        https://getzorara.online:2083/*
 // @match        https://getzorara.online:2053/*
 // @match        https://key.getwave.gg/*
+// @match        https://pandadevelopment.net/getkey?service=beeconhub*
+// @match        https://flux.li/android/external/start.php?HWID=*
 // @run-at       document-start
 // @icon         https://cdn.discordapp.com/avatars/1248562467240542208/a15472d7a7c67389033a031fc62e98a2.png?size=4096
 // ==/UserScript==
@@ -36,11 +38,10 @@
 
         if (document.body) {
             document.body.appendChild(logContainer);
-        } 
+        }
 
         return logContainer;
     }
-
 
     function logToContainer(logContainer, message) {
         const logMessage = document.createElement('div');
@@ -48,24 +49,24 @@
         logContainer.appendChild(logMessage);
     }
 
-
     window.addEventListener('load', function() {
-        const logContainer = createLogContainer(); 
-
-
+        const logContainer = createLogContainer();
         const currentUrl = window.location.href;
 
+        if (currentUrl.includes('https://flux.li/android/external/start.php?HWID=')) {
+            let newUrl = 'https://stickx.top/key-fluxus/?url=' + encodeURIComponent(currentUrl);
+            logToContainer(logContainer, "Redirecting to new URL: " + newUrl);
+            window.location.href = newUrl;
+        }
 
         if (currentUrl === "https://getzorara.online:2053/") {
             setTimeout(function() {
                 const button = document.getElementById('generate-btn');
                 if (button) {
                     button.click();
-                    logToContainer(logContainer, 'Clicked ');
-                } else {
-                    logToContainer(logContainer, 'Generate button not found');
-                }
-            }); 
+                    logToContainer(logContainer, 'Clicked Generate Button');
+                } 
+            });
         }
 
         if (currentUrl.includes('loot-link.com') || currentUrl.includes('lootdest.org') || currentUrl.includes('linkvertise.com')) {
@@ -75,6 +76,10 @@
         if (currentUrl.includes('getzorara.online:2083')) {
             logToContainer(logContainer, 'Handling getzorara.online...');
             handleGenerateButton(logContainer);
+        }
+
+        if (currentUrl.includes('pandadevelopment.net/getkey?service=beeconhub')) {
+            clickButton(logContainer);
         }
     });
 
@@ -121,6 +126,25 @@
             }, 5000);
         } else {
             logToContainer(logContainer, 'Generate button not found.');
+        }
+    }
+
+    function clickButton(logContainer) {
+        const button1 = document.querySelector('a.button-simple[href*="getkey?service=beeconhub"][href*="checkpoints=48"]');
+        if (button1) {
+            button1.click();
+            logToContainer(logContainer, 'Bypass Button clicked');
+            return;
+        }
+
+        if (window.location.href.includes('checkpoints=48')) {
+            const button2 = document.querySelector('button.button-simple.w-inline-block');
+            if (button2) {
+                button2.click();
+                logToContainer(logContainer, 'Click button continue');
+            } else {
+                logToContainer(logContainer, 'Xác minh capcha');
+            }
         }
     }
 })();
