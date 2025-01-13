@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  Bypass so cool
 // @author       UwU
 // @match        *://linkvertise.com/*
@@ -12,7 +12,10 @@
 // @match        https://getzorara.online:2053/*
 // @match        https://key.getwave.gg/*
 // @match        https://pandadevelopment.net/getkey?service=beeconhub*
-// @match        https://flux.li/android/external/start.php?HWID=*
+// @match        https://flux.li/android/external/start.php?HWID*
+// @match        https://spdmteam.com/key-system-1?hwid=*
+// @match        https://spdmteam.com/key-system-2?hwid=*
+// @match        https://spdmteam.com/key-system-3?hwid=*
 // @run-at       document-start
 // @icon         https://cdn.discordapp.com/avatars/1248562467240542208/a15472d7a7c67389033a031fc62e98a2.png?size=4096
 // ==/UserScript==
@@ -20,6 +23,7 @@
 (function() {
     'use strict';
 
+    // Create a log container for debugging
     function createLogContainer() {
         const logContainer = document.createElement('div');
         logContainer.style.position = 'fixed';
@@ -65,12 +69,8 @@
                 if (button) {
                     button.click();
                     logToContainer(logContainer, 'Clicked Generate Button');
-                } 
+                }
             });
-        }
-
-        if (currentUrl.includes('loot-link.com') || currentUrl.includes('lootdest.org') || currentUrl.includes('linkvertise.com')) {
-            handleSpecialUrls(logContainer);
         }
 
         if (currentUrl.includes('getzorara.online:2083')) {
@@ -78,9 +78,29 @@
             handleGenerateButton(logContainer);
         }
 
+        if (currentUrl.includes('loot-link.com') || currentUrl.includes('lootdest.org') || currentUrl.includes('linkvertise.com')) {
+            handleSpecialUrls(logContainer);
+        }
+
         if (currentUrl.includes('pandadevelopment.net/getkey?service=beeconhub')) {
             clickButton(logContainer);
         }
+
+        if (currentUrl.includes("https://spdmteam.com/key-system-3?hwid=")) {
+            const targetUrl = "https://direct-link.net/376138/arceus-x-neo-key-system-3";
+
+            window.location.href = targetUrl;
+        }
+
+        else if (currentUrl.includes("https://spdmteam.com/key-system-2?hwid=")) {
+            const targetUrl = "https://direct-link.net/376138/arceus-x-neo-key-system-2";
+
+            window.location.href = targetUrl;
+        }
+        else if (currentUrl.includes("https://spdmteam.com/key-system-1?hwid=")) {
+            logToContainer(logContainer, "Vui lòng giải CAPTCHA");
+        }
+
     });
 
     function handleSpecialUrls(logContainer) {
@@ -142,9 +162,9 @@
             if (button2) {
                 button2.click();
                 logToContainer(logContainer, 'Click button continue');
-            } else {
-                logToContainer(logContainer, 'Xác minh capcha');
-            }
+            } 
         }
     }
+
 })();
+
