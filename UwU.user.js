@@ -97,7 +97,9 @@
             window.location.href = targetUrl;
         }
         else if (currentUrl.includes("https://spdmteam.com/key-system-1?hwid=")) {
-            logToContainer(logContainer, "Vui lòng giải CAPTCHA");
+            const targetUrl = "https://direct-link.net/376138/arceus-x-neo-key-system-1";
+
+            window.location.href = targetUrl;
         }
 
     });
@@ -166,3 +168,4 @@
     }
 
 })();
+
