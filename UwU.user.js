@@ -8,7 +8,7 @@
 // @match        https://loot-link.com/*
 // @match        https://lootdest.org/*
 // @match        https://socialwolvez.com/*
-// @match        https://getzorara.online:2083/*
+// @match        https://key.fluxteam.org/*
 // @match        https://getzorara.online:2053/*
 // @match        https://key.getwave.gg/*
 // @match        https://pandadevelopment.net/getkey?service=beeconhub*
@@ -73,8 +73,7 @@
             });
         }
 
-        if (currentUrl.includes('getzorara.online:2083')) {
-            logToContainer(logContainer, 'Handling getzorara.online...');
+        if (currentUrl.includes('key.fluxteam.org')) {
             handleGenerateButton(logContainer);
         }
 
@@ -145,7 +144,7 @@
                 }
             }, 5000);
         } else {
-            logToContainer(logContainer, 'Generate button not found.');
+            logToContainer(logContainer, 'Use key');
         }
     }
 
@@ -167,4 +166,3 @@
     }
 
 })();
-
