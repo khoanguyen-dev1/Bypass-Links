@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.6
 // @description  Bypass so cool
 // @author       UwU
+// @match        *://trigonevo.fun/whitelist/?HWID=*
 // @match        *://linkvertise.com/*
 // @match        https://loot-link.com/*
 // @match        https://lootdest.org/*
@@ -23,7 +24,6 @@
 (function() {
     'use strict';
 
-    // Create a log container for debugging
     function createLogContainer() {
         const logContainer = document.createElement('div');
         logContainer.style.position = 'fixed';
@@ -47,19 +47,31 @@
         return logContainer;
     }
 
-    function logToContainer(logContainer, message) {
+    function logToContainer(message) {
+        const logContainer = createLogContainer();
         const logMessage = document.createElement('div');
         logMessage.textContent = message;
         logContainer.appendChild(logMessage);
     }
 
     window.addEventListener('load', function() {
-        const logContainer = createLogContainer();
         const currentUrl = window.location.href;
+
+
+        if (currentUrl.includes('trigonevo.fun/whitelist/?HWID=')) {
+            const divElement = document.querySelector('div.glass-light.bg-blue-600.bg-opacity-20.hover-glow.cursor-pointer.rounded-lg.p-4.border-l-4.border-blue-400.shadow-md.relative.overflow-hidden');
+        if (divElement) {
+            divElement.click();
+            logToContainer('Click button');
+        } else {
+            logToContainer('whitelist');
+        }
+    }
+
 
         if (currentUrl.includes('https://flux.li/android/external/start.php?HWID=')) {
             let newUrl = 'https://stickx.top/key-fluxus/?url=' + encodeURIComponent(currentUrl);
-            logToContainer(logContainer, "Redirecting to new URL: " + newUrl);
+            logToContainer("Redirecting to new URL: " + newUrl);
             window.location.href = newUrl;
         }
 
@@ -68,42 +80,36 @@
                 const button = document.getElementById('generate-btn');
                 if (button) {
                     button.click();
-                    logToContainer(logContainer, 'Clicked Generate Button');
+                    logToContainer('Clicked Generate Button');
                 }
             });
         }
 
         if (currentUrl.includes('key.fluxteam.org')) {
-            handleGenerateButton(logContainer);
+            handleGenerateButton();
         }
 
         if (currentUrl.includes('loot-link.com') || currentUrl.includes('lootdest.org') || currentUrl.includes('linkvertise.com')) {
-            handleSpecialUrls(logContainer);
+            handleSpecialUrls();
         }
 
         if (currentUrl.includes('pandadevelopment.net/getkey?service=beeconhub')) {
-            clickButton(logContainer);
+            clickButton();
         }
 
         if (currentUrl.includes("https://spdmteam.com/key-system-3?hwid=")) {
             const targetUrl = "https://direct-link.net/376138/arceus-x-neo-key-system-3";
-
             window.location.href = targetUrl;
-        }
-
-        else if (currentUrl.includes("https://spdmteam.com/key-system-2?hwid=")) {
+        } else if (currentUrl.includes("https://spdmteam.com/key-system-2?hwid=")) {
             const targetUrl = "https://direct-link.net/376138/arceus-x-neo-key-system-2";
-
             window.location.href = targetUrl;
+        } else if (currentUrl.includes("https://spdmteam.com/key-system-1?hwid=")) {
+            logToContainer('Vui lòng xác minh capcha');
         }
-        else if (currentUrl.includes("https://spdmteam.com/key-system-1?hwid=")) {
-            logToContainer(logContainer, 'Vui lòng xác minh capcha');
-        }
-
     });
 
-    function handleSpecialUrls(logContainer) {
-        logToContainer(logContainer, 'Vui lòng chờ để bypass');
+    function handleSpecialUrls() {
+        logToContainer('Vui lòng chờ để bypass');
         setTimeout(function() {
             const currentUrl = window.location.href;
 
@@ -112,21 +118,21 @@
                 const encodedRedirectUrl = currentUrl.substring(redirectParamIndex + 10);
                 const decodedUrl = decodeURIComponent(encodedRedirectUrl);
 
-                logToContainer(logContainer, `Success:  ${decodedUrl}`);
+                logToContainer(`Success:  ${decodedUrl}`);
                 window.location.href = decodedUrl;
             } else {
                 const bypassUrl = `https://bypass.vip/userscript?url=${encodeURIComponent(currentUrl)}&time=5&key=`;
 
-                logToContainer(logContainer, `Bypass URL: ${bypassUrl}`);
+                logToContainer(`Bypass URL: ${bypassUrl}`);
                 window.location.href = bypassUrl;
             }
         });
     }
 
-    function handleGenerateButton(logContainer) {
+    function handleGenerateButton() {
         const generateButton = document.querySelector('button.generate-button');
         if (generateButton) {
-            logToContainer(logContainer, 'Clicking generate button...');
+            logToContainer('Clicking generate button...');
             generateButton.click();
 
             setTimeout(() => {
@@ -134,25 +140,25 @@
                 if (finalUrlElement) {
                     const finalUrl = finalUrlElement.textContent.trim();
                     if (finalUrl) {
-                        logToContainer(logContainer, `Redirecting to: ${finalUrl}`);
+                        logToContainer(`Redirecting to: ${finalUrl}`);
                         window.location.href = finalUrl;
                     } else {
-                        logToContainer(logContainer, 'No URL found after clicking generate.');
+                        logToContainer('No URL found after clicking generate.');
                     }
                 } else {
-                    logToContainer(logContainer, 'Key display not found.');
+                    logToContainer('Key display not found.');
                 }
             }, 5000);
         } else {
-            logToContainer(logContainer, 'Use key');
+            logToContainer('Use key');
         }
     }
 
-    function clickButton(logContainer) {
+    function clickButton() {
         const button1 = document.querySelector('a.button-simple[href*="getkey?service=beeconhub"][href*="checkpoints=48"]');
         if (button1) {
             button1.click();
-            logToContainer(logContainer, 'Bypass Button clicked');
+            logToContainer('Bypass Button clicked');
             return;
         }
 
@@ -160,7 +166,7 @@
             const button2 = document.querySelector('button.button-simple.w-inline-block');
             if (button2) {
                 button2.click();
-                logToContainer(logContainer, 'Click button continue');
+                logToContainer('Click button continue');
             }
         }
     }
