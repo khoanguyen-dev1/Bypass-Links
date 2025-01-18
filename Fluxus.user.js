@@ -17,9 +17,10 @@
     const currentUrl = window.location.href;
 
     if (currentUrl.startsWith('https://flux.li/android/external/start.php?HWID=')) {
+    setTimeout(function() {
         window.location.href = 'https://linkvertise.com/580726/fluxus1';
-    }
-
+    }, 5000); // 5-second delay before redirecting
+}
     else if (currentUrl.startsWith('https://linkvertise.com/580726/fluxus1')) {
         window.location.href = 'https://flux.li/android/external/check1.php?hash={hash}';
     }
