@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  Bypass so cool
 // @author       UwU
 // @match        *://trigonevo.fun/whitelist/?HWID=*
 // @match        *://linkvertise.com/*
+// @match        https://linkvertise.com/580726/fluxus1*
+// @match        https://linkvertise.com/580726/fluxus*
 // @match        https://loot-link.com/*
 // @match        https://lootdest.org/*
 // @match        https://socialwolvez.com/*
@@ -14,9 +16,11 @@
 // @match        https://key.getwave.gg/*
 // @match        https://pandadevelopment.net/getkey?service=beeconhub*
 // @match        https://flux.li/android/external/start.php?HWID*
+// @match        https://flux.li/android/external/check1.php?hash={hash}*
 // @match        https://spdmteam.com/key-system-1?hwid=*
 // @match        https://spdmteam.com/key-system-2?hwid=*
 // @match        https://spdmteam.com/key-system-3?hwid=*
+// @match        https://keyguardian.org/a/1096?id=*
 // @run-at       document-start
 // @icon         https://cdn.discordapp.com/avatars/1248562467240542208/a15472d7a7c67389033a031fc62e98a2.png?size=4096
 // ==/UserScript==
@@ -69,11 +73,50 @@
     }
 
 
-        if (currentUrl.includes('https://flux.li/android/external/start.php?HWID=')) {
-            let newUrl = 'https://stickx.top/key-fluxus/?url=' + encodeURIComponent(currentUrl);
-            logToContainer("Redirecting to new URL: " + newUrl);
-            window.location.href = newUrl;
-        }
+        if (currentUrl.startsWith('https://flux.li/android/external/start.php?HWID=')) {
+        window.location.href = 'https://linkvertise.com/580726/fluxus1';
+    }
+
+    else if (currentUrl.startsWith('https://linkvertise.com/580726/fluxus1')) {
+        window.location.href = 'https://flux.li/android/external/check1.php?hash={hash}';
+    }
+
+    else if (currentUrl.startsWith('https://flux.li/android/external/check1.php?hash={hash}')) {
+        window.location.href = 'https://linkvertise.com/580726/fluxus';
+    }
+
+    else if (currentUrl.startsWith('https://linkvertise.com/580726/fluxus')) {
+        const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+    overlay.style.zIndex = '9999';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+
+    const button = document.createElement('button');
+    button.textContent = 'Bypass';
+    button.style.padding = '20px 40px';
+    button.style.fontSize = '18px';
+    button.style.border = 'none';
+    button.style.backgroundColor = '#4CAF50';
+    button.style.color = 'white';
+    button.style.cursor = 'pointer';
+    button.style.borderRadius = '10px';
+    button.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+    button.style.transition = 'background-color 0.3s';
+
+    button.addEventListener('click', function() {
+        window.location.href = `https://flux.li/android/external/main.php?hash={hash}`;
+    });
+
+    overlay.appendChild(button);
+    document.body.appendChild(overlay);
+}
 
         if (currentUrl === "https://getzorara.online:2053/") {
             setTimeout(function() {
@@ -97,6 +140,10 @@
             clickButton();
         }
 
+        if (currentUrl.includes('https://keyguardian.org/a/1096?id=')) {
+             keyguardian();
+        }
+
         if (currentUrl.includes("https://spdmteam.com/key-system-3?hwid=")) {
             const targetUrl = "https://direct-link.net/376138/arceus-x-neo-key-system-3";
             window.location.href = targetUrl;
@@ -113,10 +160,9 @@
     setTimeout(function() {
         const currentUrl = window.location.href;
 
-        // Kiểm tra nếu URL là những link mà bạn không muốn chuyển hướng
         if (currentUrl.includes("https://linkvertise.com/580726/fluxus1") || currentUrl.includes("https://linkvertise.com/580726/fluxus")) {
             logToContainer(logContainer, 'URL là link không cần bypass');
-            return; // Dừng lại, không thực hiện bypass
+            return;
         }
 
         const redirectParamIndex = currentUrl.indexOf("&redirect=");
@@ -177,5 +223,33 @@
         }
     }
 
-})();
+    function keyguardian(logContainer) {
+        const button1 = document.querySelector('div.flex.items-center.p-6.pt-0.relative a.w-full.group');
+        if (button1) {
+            button1.click();
+            logToContainer(logContainer, 'Bypass Button clicked');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+            return;
+        }
 
+        if (window.location.href.includes('&providerId=')) {
+            const button2 = document.querySelector("body > main > div > div > div.items-center.p-6.pt-0.flex.justify-between > button");
+            if (button2) {
+                button2.click();
+                logToContainer(logContainer, 'Click button continue');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
+        }
+    }
+
+    setTimeout(() => {
+        const logContainer = document.createElement('div');
+        document.body.appendChild(logContainer);
+        clickButton(logContainer);
+    }, 1000);
+
+})();
