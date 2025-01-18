@@ -108,26 +108,32 @@
         }
     });
 
-    function handleSpecialUrls() {
-        logToContainer('Vui lòng chờ để bypass');
-        setTimeout(function() {
-            const currentUrl = window.location.href;
+    function handleSpecialUrls(logContainer) {
+    logToContainer(logContainer, 'Vui lòng chờ để bypass');
+    setTimeout(function() {
+        const currentUrl = window.location.href;
 
-            const redirectParamIndex = currentUrl.indexOf("&redirect=");
-            if (redirectParamIndex !== -1) {
-                const encodedRedirectUrl = currentUrl.substring(redirectParamIndex + 10);
-                const decodedUrl = decodeURIComponent(encodedRedirectUrl);
+        // Kiểm tra nếu URL là những link mà bạn không muốn chuyển hướng
+        if (currentUrl.includes("https://linkvertise.com/580726/fluxus1") || currentUrl.includes("https://linkvertise.com/580726/fluxus")) {
+            logToContainer(logContainer, 'URL là link không cần bypass');
+            return; // Dừng lại, không thực hiện bypass
+        }
 
-                logToContainer(`Success:  ${decodedUrl}`);
-                window.location.href = decodedUrl;
-            } else {
-                const bypassUrl = `https://bypass.vip/userscript?url=${encodeURIComponent(currentUrl)}&time=5&key=`;
+        const redirectParamIndex = currentUrl.indexOf("&redirect=");
+        if (redirectParamIndex !== -1) {
+            const encodedRedirectUrl = currentUrl.substring(redirectParamIndex + 10);
+            const decodedUrl = decodeURIComponent(encodedRedirectUrl);
 
-                logToContainer(`Bypass URL: ${bypassUrl}`);
-                window.location.href = bypassUrl;
-            }
-        });
-    }
+            logToContainer(logContainer, `Success:  ${decodedUrl}`);
+            window.location.href = decodedUrl;
+        } else {
+            const bypassUrl = `https://bypass.vip/userscript?url=${encodeURIComponent(currentUrl)}&time=1&key=`;
+
+            logToContainer(logContainer, `Bypass URL: ${bypassUrl}`);
+            window.location.href = bypassUrl;
+        }
+    });
+}
 
     function handleGenerateButton() {
         const generateButton = document.querySelector('button.generate-button');
