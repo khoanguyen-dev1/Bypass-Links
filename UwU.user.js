@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.8
 // @description  Bypass so cool
 // @author       UwU
 // @match        *://trigonevo.fun/whitelist/?HWID=*
@@ -21,6 +21,7 @@
 // @match        https://spdmteam.com/key-system-2?hwid=*
 // @match        https://spdmteam.com/key-system-3?hwid=*
 // @match        https://keyguardian.org/a/1096?id=*
+// @match        https://getswift.xyz/real/*
 // @run-at       document-start
 // @icon         https://cdn.discordapp.com/avatars/1248562467240542208/a15472d7a7c67389033a031fc62e98a2.png?size=4096
 // ==/UserScript==
@@ -153,6 +154,22 @@
         } else if (currentUrl.includes("https://spdmteam.com/key-system-1?hwid=")) {
             logToContainer('Vui lòng xác minh capcha');
         }
+          if (currentUrl.startsWith("https://getswift.xyz/real/0/") ||
+            currentUrl.startsWith("https://getswift.xyz/real/1/") ||
+            currentUrl.startsWith("https://getswift.xyz/real/2/")) {
+            setInterval(function() {
+                const button = document.querySelector("body > div > form > div.flex.flex-col.w-full.mb-\\[2rem\\].items-center > button");
+                if (button) {
+                    button.click();
+                    logToContainer('Bypass Click button');
+                }
+            }, 1000);
+        }
+
+          if (currentUrl.startsWith("https://getswift.xyz/real/3/")) {
+            logToContainer("Vui lòng nhấn 'Get Key'");
+        }
+
     });
 
     function handleSpecialUrls(logContainer) {
