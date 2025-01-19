@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         UwU Bypass
+// @name         UwU Bypass ( Banana )
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Bypass Banana
