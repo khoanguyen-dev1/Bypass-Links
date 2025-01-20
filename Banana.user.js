@@ -16,7 +16,6 @@
         const button = document.querySelector('#nextbtn');
 
         if (button) {
-            // Check if the button is disabled (based on style or text condition)
             const isCooldown = button.style.cursor === 'not-allowed';
 
             if (isCooldown) {
