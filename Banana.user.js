@@ -12,7 +12,6 @@
 (function() {
     'use strict';
 
-    // Function to check and toggle button status on your current page
     function checkButtonStatus() {
         const button = document.querySelector('#nextbtn');
 
@@ -52,7 +51,11 @@ window.addEventListener('load', function() {
     }, 5000);
 });
 
-
+if (window.location.href.includes("linkvertise.com/1184932/banana-cat-hub1?o=sharing")) {
+setTimeout(function() {
+        window.close();
+    }, 5000);
+}
 if (window.location.href.includes("linkvertise.com/1184932/banana-cat-hub1?o=sharing")) {
     setTimeout(() => {
         const button = document.querySelector('button[data-testid="lv-button"]');
