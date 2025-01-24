@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
-// @version      0.8
+// @version      0.10
 // @description  Bypass so cool
 // @author       UwU
 // @match        *://trigonevo.fun/whitelist/?HWID=*
@@ -9,6 +9,7 @@
 // @match        https://linkvertise.com/580726/fluxus1*
 // @match        https://linkvertise.com/580726/fluxus*
 // @match        https://loot-link.com/*
+// @match        https://loot-links.com/*
 // @match        https://lootdest.org/*
 // @match        https://socialwolvez.com/*
 // @match        https://key.fluxteam.org/*
@@ -22,6 +23,9 @@
 // @match        https://spdmteam.com/key-system-3?hwid=*
 // @match        https://keyguardian.org/a/1096?id=*
 // @match        https://getswift.xyz/real/*
+// @match        https://mobile.codex.lol/*
+// @match        https://ads.luarmor.net/get_key?for=Lootlab_Test-CGzonCNhjjyI
+// @match        https://ads.luarmor.net/get_key?for=-CGzonCNhjjyI
 // @run-at       document-start
 // @icon         https://cdn.discordapp.com/avatars/1248562467240542208/a15472d7a7c67389033a031fc62e98a2.png?size=4096
 // ==/UserScript==
@@ -61,6 +65,29 @@
 
     window.addEventListener('load', function() {
         const currentUrl = window.location.href;
+        let buttonClicked = false;
+
+    setTimeout(function() {
+        if (!buttonClicked) {
+            const button = document.querySelector("#tablebodyuserarea > tr > td:nth-child(4) > button");
+            if (button) {
+                logToContainer('Auto Click button');
+                button.click();
+                buttonClicked = true;
+            } else {
+                console.log("Không tìm thấy nút!");
+            }
+        }
+    }, 5000);
+
+        if (currentUrl.includes("https://ads.luarmor.net/get_key?for=Lootlab_Test-CGzonCNhjjyI") || currentUrl.includes('https://ads.luarmor.net/get_key?for=-CGzonCNhjjyI')) {
+    var nextButton = document.querySelector("#nextbtn");
+    if (nextButton) {
+        nextButton.click();
+    } else {
+        console.log('Button không tìm thấy!');
+    }
+}
 
 
         if (currentUrl.includes('trigonevo.fun/whitelist/?HWID=')) {
@@ -75,19 +102,20 @@
 
 
         if (currentUrl.startsWith('https://flux.li/android/external/start.php?HWID=')) {
+    setTimeout(function() {
         window.location.href = 'https://linkvertise.com/580726/fluxus1';
-    }
-
+    }, 5000);
+}
     else if (currentUrl.startsWith('https://linkvertise.com/580726/fluxus1')) {
-        window.location.href = 'https://flux.li/android/external/check1.php?hash={hash}';
-    }
+       window.location.href = 'https://flux.li/android/external/check1.php?hash={hash}';
+   }
 
     else if (currentUrl.startsWith('https://flux.li/android/external/check1.php?hash={hash}')) {
-        window.location.href = 'https://linkvertise.com/580726/fluxus';
-    }
+       window.location.href = 'https://linkvertise.com/580726/fluxus';
+   }
 
     else if (currentUrl.startsWith('https://linkvertise.com/580726/fluxus')) {
-        const overlay = document.createElement('div');
+    const overlay = document.createElement('div');
     overlay.style.position = 'fixed';
     overlay.style.top = '0';
     overlay.style.left = '0';
@@ -96,8 +124,15 @@
     overlay.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
     overlay.style.zIndex = '9999';
     overlay.style.display = 'flex';
+    overlay.style.flexDirection = 'column';
     overlay.style.alignItems = 'center';
     overlay.style.justifyContent = 'center';
+
+    const countdownText = document.createElement('div');
+    countdownText.style.fontSize = '30px';
+    countdownText.style.marginBottom = '20px';
+    countdownText.style.fontWeight = 'bold';
+    countdownText.textContent = 'Time : 5s';
 
     const button = document.createElement('button');
     button.textContent = 'Bypass';
@@ -110,14 +145,30 @@
     button.style.borderRadius = '10px';
     button.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
     button.style.transition = 'background-color 0.3s';
+    button.style.display = 'none';
 
     button.addEventListener('click', function() {
         window.location.href = `https://flux.li/android/external/main.php?hash={hash}`;
     });
 
+    overlay.appendChild(countdownText);
     overlay.appendChild(button);
     document.body.appendChild(overlay);
+
+    let timeLeft = 5;
+    const countdownInterval = setInterval(function() {
+        timeLeft--;
+        countdownText.textContent = `Time : ${timeLeft}s`;
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            countdownText.textContent = 'Click Bypass';
+            button.style.display = 'block';
+        }
+    }, 1000);
 }
+
+
+
 
         if (currentUrl === "https://getzorara.online:2053/") {
             setTimeout(function() {
@@ -145,6 +196,27 @@
              keyguardian();
         }
 
+        if (currentUrl.startsWith('https://loot-links.com/s?mK6Z')) {
+    setTimeout(function() {
+        window.location.href = 'https://mobile.codex.lol/?page=tasks';
+        logToContainer('wait 5 second');
+    }, 5000);
+}
+
+        if (currentUrl.startsWith('https://linkvertise.com/654032/codex-gateway-2')) {
+    setTimeout(function() {
+        window.location.href = 'https://mobile.codex.lol/?page=tasks';
+        logToContainer('wait 5 second');
+    }, 5000);
+}
+
+        if (currentUrl.startsWith('https://loot-link.com/s?oiQO')) {
+    setTimeout(function() {
+        window.location.href = 'https://mobile.codex.lol/?page=tasks';
+         logToContainer('wait 5 second');
+    }, 5000);
+}
+
         if (currentUrl.includes("https://spdmteam.com/key-system-3?hwid=")) {
             const targetUrl = "https://direct-link.net/376138/arceus-x-neo-key-system-3";
             window.location.href = targetUrl;
@@ -170,6 +242,14 @@
             logToContainer("Vui lòng nhấn 'Get Key'");
         }
 
+        if (window.location.href.includes('https://mobile.codex.lol/')) {
+        const codex = document.querySelector('div.glass-light.bg-blue-600.bg-opacity-20.hover-glow.cursor-pointer.rounded-lg.p-4.border-l-4.border-blue-400.shadow-md.relative.overflow-hidden');
+        if (codex) {
+            codex.click();
+            logToContainer('Click button');
+        }
+    }
+
     });
 
     function handleSpecialUrls(logContainer) {
@@ -177,7 +257,7 @@
     setTimeout(function() {
         const currentUrl = window.location.href;
 
-        if (currentUrl.includes("https://linkvertise.com/580726/fluxus1") || currentUrl.includes("https://linkvertise.com/580726/fluxus")) {
+        if (currentUrl.includes("https://linkvertise.com/580726/fluxus1") || currentUrl.includes("https://loot-links.com/s?mK6Z") || currentUrl.includes("https://linkvertise.com/654032/codex-gateway-2") || currentUrl.includes("https://loot-link.com/s?oiQO")) {
             logToContainer(logContainer, 'URL là link không cần bypass');
             return;
         }
