@@ -246,7 +246,6 @@
         const codex = document.querySelector('div.glass-light.bg-blue-600.bg-opacity-20.hover-glow.cursor-pointer.rounded-lg.p-4.border-l-4.border-blue-400.shadow-md.relative.overflow-hidden');
         if (codex) {
             codex.click();
-            logToContainer('Click button');
         }
     }
 
