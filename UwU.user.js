@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
-// @version      0.10
+// @version      0.11
 // @description  Bypass so cool
 // @author       UwU
 // @match        *://trigonevo.fun/whitelist/?HWID=*
@@ -16,12 +16,14 @@
 // @match        https://getzorara.online:2053/*
 // @match        https://key.getwave.gg/*
 // @match        https://pandadevelopment.net/getkey?service=beeconhub*
+// @match        https://pandadevelopment.net/getkey?service=cryptic*
 // @match        https://flux.li/android/external/start.php?HWID*
 // @match        https://flux.li/android/external/check1.php?hash={hash}*
 // @match        https://spdmteam.com/key-system-1?hwid=*
 // @match        https://spdmteam.com/key-system-2?hwid=*
 // @match        https://spdmteam.com/key-system-3?hwid=*
 // @match        https://keyguardian.org/a/1096?id=*
+// @match        https://keyguardian.org/a/1167?id=*
 // @match        https://getswift.xyz/real/*
 // @match        https://mobile.codex.lol/*
 // @match        https://ads.luarmor.net/get_key?for=Lootlab_Test-CGzonCNhjjyI
@@ -192,8 +194,8 @@
             clickButton();
         }
 
-        if (currentUrl.includes('https://keyguardian.org/a/1096?id=')) {
-             keyguardian();
+        if (currentUrl.includes('https://keyguardian.org/a/1096?id=') || currentUrl.includes('https://keyguardian.org/a/1167?id=')) {
+             keyguardian_Frostware_Cubix();
         }
 
         if (currentUrl.startsWith('https://loot-links.com/s?mK6Z')) {
@@ -319,7 +321,7 @@
         }
     }
 
-    function keyguardian(logContainer) {
+    function keyguardian_Frostware_Cubix(logContainer) {
         const button1 = document.querySelector('div.flex.items-center.p-6.pt-0.relative a.w-full.group');
         if (button1) {
             button1.click();
@@ -341,6 +343,8 @@
             }
         }
     }
+
+
 
     setTimeout(() => {
         const logContainer = document.createElement('div');
