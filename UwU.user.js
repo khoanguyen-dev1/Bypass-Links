@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
-// @version      0.12
+// @version      0.14
 // @description  Bypass so cool
 // @author       UwU
 // @match        *://trigonevo.fun/whitelist/?HWID=*
@@ -28,6 +28,9 @@
 // @match        https://mobile.codex.lol/*
 // @match        https://ads.luarmor.net/get_key?for=Lootlab_Test-CGzonCNhjjyI
 // @match        https://ads.luarmor.net/get_key?for=-CGzonCNhjjyI
+// @match        https://keyrblx.com/*
+// @match        https://rekonise.com/*
+// @grant        GM_xmlhttpRequest
 // @run-at       document-start
 // @icon         https://cdn.discordapp.com/avatars/1248562467240542208/a15472d7a7c67389033a031fc62e98a2.png?size=4096
 // ==/UserScript==
@@ -64,6 +67,11 @@
         logMessage.textContent = message;
         logContainer.appendChild(logMessage);
     }
+
+    function showCopyConfirmation(value) {
+        alert('Đã sao chép giá trị: ' + value);
+    }
+
 
     window.addEventListener('load', function() {
         const currentUrl = window.location.href;
@@ -201,7 +209,7 @@
         button.click();
     }
         }
-        
+
         if (currentUrl.includes('https://keyguardian.org/a/1096?id=') || currentUrl.includes('https://keyguardian.org/a/1167?id=')) {
              keyguardian_Frostware_Cubix();
         }
@@ -259,6 +267,60 @@
         }
     }
 
+   if (window.location.href.includes('https://keyrblx.com/')) {
+
+        const continueButton = document.querySelector('button.mantine-Button-root span.mantine-Button-label');
+
+        if (continueButton) {
+            continueButton.closest('button').click();
+        }
+
+        const copyButton = document.querySelector('button.mantine-Button-root span.mantine-Button-label');
+
+        if (copyButton && copyButton.textContent.trim() === 'Copy') {
+            copyButton.closest('button').click();
+            const inputElement = document.querySelector('input.mantine-Input-input');
+
+            if (inputElement) {
+                const inputValue = inputElement.value;
+                showCopyConfirmation(inputValue);
+                logToContainer('key : ' + inputValue)
+            }
+        } else {
+            logToContainer('Click button');
+        }
+    }
+
+    if (window.location.href.includes('rekonise.com/')) {
+        let sPathname = window.location.pathname;
+
+        let apiUrl = `https://api.rekonise.com/social-unlocks${sPathname}/unlock`;
+
+        GM_xmlhttpRequest({
+            method: 'GET',
+            url: apiUrl,
+            onload: function(response) {
+                try {
+                    // Parse the JSON response
+                    let jsonResponse = JSON.parse(response.responseText);
+
+                    // Check if the 'url' field exists in the response
+                    if (jsonResponse.url) {
+                        // Redirect to the URL returned by the API
+                        window.location.href = jsonResponse.url;
+                    } else {
+                        console.error('No URL found in the API response');
+                    }
+                } catch (e) {
+                    console.error('Failed to parse API response', e);
+                }
+            },
+            onerror: function() {
+                console.error('Failed to fetch the API URL');
+            }
+        });
+    }
+
     });
 
     function handleSpecialUrls(logContainer) {
@@ -266,7 +328,7 @@
     setTimeout(function() {
         const currentUrl = window.location.href;
 
-        if (currentUrl.includes("https://linkvertise.com/580726/fluxus1") || currentUrl.includes("https://loot-links.com/s?mK6Z") || currentUrl.includes("https://linkvertise.com/654032/codex-gateway-2") || currentUrl.includes("https://loot-link.com/s?oiQO")) {
+        if (currentUrl.includes("https://linkvertise.com/580726/fluxus1") || currentUrl.includes("https://linkvertise.com/580726/fluxus") || currentUrl.includes("https://loot-links.com/s?mK6Z") || currentUrl.includes("https://linkvertise.com/654032/codex-gateway-2") || currentUrl.includes("https://loot-link.com/s?oiQO")) {
             logToContainer(logContainer, 'URL là link không cần bypass');
             return;
         }
