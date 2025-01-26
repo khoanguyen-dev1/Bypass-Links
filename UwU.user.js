@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
-// @version      0.11
+// @version      0.12
 // @description  Bypass so cool
 // @author       UwU
 // @match        *://trigonevo.fun/whitelist/?HWID=*
@@ -194,6 +194,14 @@
             clickButton();
         }
 
+        if (currentUrl.includes('https://pandadevelopment.net/getkey?service=cryptic')) {
+             const button = document.querySelector('.button-simple.w-inline-block');
+
+    if (button) {
+        button.click();
+    }
+        }
+        
         if (currentUrl.includes('https://keyguardian.org/a/1096?id=') || currentUrl.includes('https://keyguardian.org/a/1167?id=')) {
              keyguardian_Frostware_Cubix();
         }
