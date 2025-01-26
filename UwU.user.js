@@ -215,23 +215,23 @@
         }
 
         if (currentUrl.startsWith('https://loot-links.com/s?mK6Z')) {
+            logToContainer('wait 5 second');
     setTimeout(function() {
         window.location.href = 'https://mobile.codex.lol/?page=tasks';
-        logToContainer('wait 5 second');
     }, 5000);
 }
 
         if (currentUrl.startsWith('https://linkvertise.com/654032/codex-gateway-2')) {
+            logToContainer('wait 5 second');
     setTimeout(function() {
-        window.location.href = 'https://mobile.codex.lol/?page=tasks';
-        logToContainer('wait 5 second');
+        window.location.href = 'https://mobile.codex.lol/?page=tasks';  
     }, 5000);
 }
 
         if (currentUrl.startsWith('https://loot-link.com/s?oiQO')) {
+            logToContainer('wait 5 second');
     setTimeout(function() {
         window.location.href = 'https://mobile.codex.lol/?page=tasks';
-         logToContainer('wait 5 second');
     }, 5000);
 }
 
@@ -301,12 +301,8 @@
             url: apiUrl,
             onload: function(response) {
                 try {
-                    // Parse the JSON response
                     let jsonResponse = JSON.parse(response.responseText);
-
-                    // Check if the 'url' field exists in the response
                     if (jsonResponse.url) {
-                        // Redirect to the URL returned by the API
                         window.location.href = jsonResponse.url;
                     } else {
                         console.error('No URL found in the API response');
