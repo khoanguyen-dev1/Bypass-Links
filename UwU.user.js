@@ -202,13 +202,15 @@
             clickButton();
         }
 
-        if (currentUrl.includes('https://pandadevelopment.net/getkey?service=cryptic')) {
-             const button = document.querySelector('.button-simple.w-inline-block');
-
-    if (button) {
-        button.click();
-    }
+        if (window.location.href.includes('https://pandadevelopment.net/getkey?service=cryptic')) {
+            logToContainer('wait 5 second');
+    setTimeout(() => {
+        const button = document.querySelector('.button-simple.w-inline-block');
+        if (button) {
+            button.click();
         }
+    }, 5000);
+}
 
         if (currentUrl.includes('https://keyguardian.org/a/1096?id=') || currentUrl.includes('https://keyguardian.org/a/1167?id=')) {
              keyguardian_Frostware_Cubix();
