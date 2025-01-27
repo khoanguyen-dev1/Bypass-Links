@@ -31,7 +31,7 @@
             }
         } 
     }
-    setInterval(checkButtonStatus, 1000);
+    setInterval(checkButtonStatus, 10000);
 
 window.addEventListener('load', function() {
     let buttonClicked = false;
