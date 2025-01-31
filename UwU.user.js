@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
-// @version      0.15
+// @version      0.16
 // @description  Bypass so cool
 // @author       UwU
 // @match        *://trigonevo.fun/whitelist/?HWID=*
@@ -29,6 +29,7 @@
 // @match        https://ads.luarmor.net/get_key?for=-CGzonCNhjjyI
 // @match        https://keyrblx.com/*
 // @match        https://rekonise.com/*
+// @match        https://1shortlink.com/*
 // @grant        GM_xmlhttpRequest
 // @run-at       document-start
 // @icon         https://cdn.discordapp.com/avatars/1248562467240542208/a15472d7a7c67389033a031fc62e98a2.png?size=4096
