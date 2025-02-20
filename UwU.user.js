@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UwU Bypass
 // @namespace    http://tampermonkey.net/
-// @version      0.17
+// @version      0.18
 // @description  Bypass so cool
 // @author       UwU
 // @match        *://trigonevo.fun/*
