@@ -25,8 +25,13 @@
 // @match        https://rekonise.com/*
 // @match        https://1shortlink.com/*
 // @match        *://getkey.farrghii.com/*
-// @require       https://github.com/khoanguyen-dev1/Bypass-Links/raw/main/freebypass.js
+// @match        https://yeumoney.com/*
+// @require      https://github.com/khoanguyen-dev1/Bypass-Links/raw/main/freebypass.js
+// @require      https://github.com/khoanguyen-dev1/Bypass-Links/raw/main/yeumoneybypassfree.js
 // @grant        GM_xmlhttpRequest
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_notification
 // @run-at       document-start
 // @icon         https://cdn.discordapp.com/avatars/1248562467240542208/a15472d7a7c67389033a031fc62e98a2.png?size=4096
 // ==/UserScript==
