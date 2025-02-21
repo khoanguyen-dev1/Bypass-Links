@@ -25,9 +25,7 @@
 // @match        https://rekonise.com/*
 // @match        https://1shortlink.com/*
 // @match        *://getkey.farrghii.com/*
-// @match        https://yeumoney.com/*
 // @require      https://github.com/khoanguyen-dev1/Bypass-Links/raw/main/freebypass.js
-// @require      https://github.com/khoanguyen-dev1/Bypass-Links/raw/main/yeumoneybypassfree.js
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setValue
 // @grant        GM_getValue
