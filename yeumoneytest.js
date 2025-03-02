@@ -1,3 +1,16 @@
+// ==UserScript==
+// @name         Bypass Yeumoney gay
+// @namespace    http://tampermonkey.net/
+// @version      3.1
+// @description  Bypass Yeumoney premium
+// @author       script by phantruong
+// @match        https://yeumoney.com/*
+// @grant        GM_xmlhttpRequest
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @run-at       document-end
+// ==/UserScript==
+
 (function() {
     'use strict';
 
